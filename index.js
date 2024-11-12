@@ -20,10 +20,10 @@ const logger = (req, res, next) => {
 app.use(logger)
 //connection to mysql
 const connection = mysql.createConnection({
-    host: "b94wdojf7plulfcwmzdd-mysql.services.clever-cloud.com",
-    user: "uq31ln9avflr6jzn",
-    password: "XFktn0mwfr3b02468tnE",
-    database: "b94wdojf7plulfcwmzdd",
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "Employee",
 });
 
 
@@ -33,7 +33,7 @@ connection.connect();
 
 //API
 ///GET request and response are the parameters
-app.get("get", (req, res) => {
+app.get("/get", (req, res) => {
     //create a query
     connection.query("SELECT * FROM userdata", (err, rows, fields) =>{
         //checking errors
@@ -65,16 +65,16 @@ app.get("get", (req, res) => {
 
 
 //POST
-app.use(express.urlencoded({extended: false}))//////////////
-app.post("post", (req, res) => {
-    const fname =   req.body.fname;
-    const lname = req.body.lname;
-    const email = req.body.email;
-    const gender = req.body.gender;
+app.use(express.urlencoded({extended: false}))
+app.post("/post", (req, res) => {
+    const Item_Name =   req.body.Item_Name;
+    const Item_Price = req.body.Item_Price;
+    const Quantity = req.body.Quantity;
+    const Supplier = req.body.Supplier;
 
     const id = req.body.id;
 
-    connection.query(`INSERT INTO userdata (first_name, last_name, email, gender) VALUE ('${fname}', '${lname}', '${email}', '${gender}' WHERE id = '${id}')`, 
+    connection.query(`INSERT INTO product_info (Item_Name, Item_Price, Quantity, Supplier) VALUE ('${Item_Name}', '${Item_Price}', '${Quantity}', '${Supplier}' WHERE id = '${id}')`, 
     (err, rows, fields) => {
         if(err) throw err;
         res.json({msg: `Succesfully inserted`});
